@@ -24,18 +24,23 @@ function addMessage(role, text, extraClass = '') {
   const container = document.createElement('div');
   container.classList.add('message-container', role);
 
+  const iconDiv = document.createElement('div');
+  iconDiv.classList.add('message-icon', role);
+  iconDiv.textContent = role === 'user' ? '👤' : '✨';
+
   const messageDiv = document.createElement('div');
   messageDiv.classList.add('message', role);
   if (extraClass) messageDiv.classList.add(extraClass);
 
   if (extraClass === 'loading') {
-    messageDiv.innerHTML = '<span class="spinner"></span><span>Please wait...</span>';
+    messageDiv.innerHTML = '<div class="typing-indicator"><span></span><span></span><span></span></div>';
     lastLoadingBubble = messageDiv;
   } else {
     messageDiv.textContent = text;
   }
 
-  container.appendChild(messageDiv);
+  container.appendChild(role === 'user' ? messageDiv : iconDiv);
+  container.appendChild(role === 'user' ? iconDiv : messageDiv);
   chatBox.appendChild(container);
   chatBox.scrollTop = chatBox.scrollHeight;
   return messageDiv;
@@ -90,7 +95,7 @@ async function handleSubmit(event) {
     }
   } catch (error) {
     console.error('Error:', error);
-    updateLastBotMessage('Failed to get response from server.');
+    updateLastBotMessage('Failed to get response from server, please try again in a few minutes.');
   }
 }
 

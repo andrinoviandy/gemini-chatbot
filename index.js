@@ -12,7 +12,7 @@ const app = express();
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
-const GEMINI_MODEL = 'gemini-2.5-flash-lite';
+const GEMINI_MODEL = 'gemini-2.5-flash';
 
 app.use(cors());
 app.use(express.json());
@@ -40,8 +40,7 @@ app.post('/api/chat', async (req, res) => {
                 temperature: 0.7,
                 topP: 0.5,
                 systemInstruction: `
-                    Anda adalah asisten travel yang ramah, tanyakan kepada user ingin liburan kemana dan berapa lama,
-                    lalu buatkan itinerary berdasarkan lokasi dan lamanya liburan mereka, jawab hanya pertanyaan terkait travelling.
+                    Anda adalah asisten travel. Sebelum user memberikan pertanyaan, tolong perkenalkan diri Anda dan tanyakan kepada user ingin liburan kemana dan gunakan bahasa yang formal dan santai serta berikan rekomendasi tempat liburan yang sesuai dengan preferensi mereka.
                 `
             }
         })
